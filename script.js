@@ -1,65 +1,62 @@
 const materias = [
-  { id: 'ei', nombre: 'Elementos de Informática', correlativas: [], año: '1° año - 1° cuatrimestre' },
-  { id: 'algebra', nombre: 'Álgebra', correlativas: [], año: '1° año - 1° cuatrimestre' },
-  { id: 'epa', nombre: 'Expresión de Problemas y Algoritmos', correlativas: [], año: '1° año - 1° cuatrimestre' },
+  //primer año. primer cuatrimestre
+  { id: 'ei', nombre: 'Elementos de Informática', correlativas: [] },
+  { id: 'algebra', nombre: 'Álgebra', correlativas: [] },
+  { id: 'epya', nombre: 'Expresión de Problemas y Algoritmos', correlativas: [] },
 
-  { id: 'api', nombre: 'Algorítmica y Programación I', correlativas: ['epa'], año: '1° año - 2° cuatrimestre' },
-  { id: 'am', nombre: 'Análisis Matemático', correlativas: [], año: '1° año - 2° cuatrimestre' },
-  { id: 'logica', nombre: 'Elementos de la Lógica y Matemática Discreta', correlativas: [], año: '1° año - 2° cuatrimestre' },
-  { id: 'ingles', nombre: 'Acreditación de idioma Inglés', correlativas: [], año: '1° año - 2° cuatrimestre' },
+  //primer año. segundo cuatrimestre
+  { id: 'ayp1', nombre: 'Algorítmica y Programación I', correlativas: ['epya'] },
+  { id: 'am', nombre: 'Analisis Matemático', correlativas: [] },
+  { id: 'elymd', nombre: 'Elementos de lógica y matemática discretaa', correlativas: [] },
+  { id: 'ingles', nombre: 'Ingles', correlativas: [] },
 
-  { id: 'syso', nombre: 'Sistemas y Organizaciones', correlativas: ['ingles'], año: '2° año - 1° cuatrimestre' },
-  { id: 'arq', nombre: 'Arquitectura de Computadoras', correlativas: ['ei'], año: '2° año - 1° cuatrimestre' },
-  { id: 'apii', nombre: 'Algorítmica y Programación II', correlativas: ['api', 'logica'], año: '2° año - 1° cuatrimestre' },
+  //segundo año. primer cuatrimestre
+  { id: 'ayp2', nombre: 'Algorítmica y Programación II', correlativas: ['ingles', 'ayp1'] },
+  { id: 'adc', nombre: 'Arquitectura de Computadoras', correlativas: ['ingles', 'ei'] },
+  { id: 'syo', nombre: 'Sistemas y Organizaciones', correlativas: ['ingles'] },
 
-  { id: 'bd1', nombre: 'Base de Datos I', correlativas: ['apii'], año: '2° año - 2° cuatrimestre' },
-  { id: 'estad', nombre: 'Estadística', correlativas: ['algebra', 'am'], año: '2° año - 2° cuatrimestre' },
-  { id: 'poo', nombre: 'Programación Orientada a Objetos', correlativas: ['apii'], año: '2° año - 2° cuatrimestre' },
+  //segundo año. segundo cuatrimestre
+  { id: 'bd1', nombre: 'Base de Datos I', correlativas: ['ingles', 'ayp2'] },
+  { id: 'estadistica', nombre: 'Estadística', correlativas: ['ingles', 'algebra', 'am'] },
+  { id: 'poo', nombre: 'Programación Orientada a Objetos', correlativas: ['ingles', 'ayp2'] },
 
-  { id: 'lab', nombre: 'Laboratorio de Programación y Lenguajes', correlativas: ['poo'], año: '3° año - 1° cuatrimestre' },
-  { id: 'ads', nombre: 'Análisis y Diseño de Sistemas', correlativas: ['bd1'], año: '3° año - 1° cuatrimestre' },
-  { id: 'so', nombre: 'Sistemas Operativos', correlativas: ['arq'], año: '3° año - 1° cuatrimestre' },
+  //tercer año. primer cuatrimestre
+  { id: 'lpyl', nombre: 'Laboratorio de programación y lenguajes', correlativas: ['poo'] },
+  { id: 'ayds', nombre: 'Análisis y diseño de sistemas', correlativas: ['syo', 'bd1'] },
+  { id: 'so', nombre: 'Sistemas operativos', correlativas: ['adc', 'ayp2'] },
 
-  { id: 'ds', nombre: 'Desarrollo de Software', correlativas: ['poo'], año: '3° año - 2° cuatrimestre' }
+  //tercer año. segundo cuatrimestre
+
+  { id: 'ds', nombre: 'Desarrollo de Software', correlativas: ['poo', 'ayds'] },
+
 ];
 
-const estado = {};
-const container = document.getElementById('malla');
+const estado = {};  // Guarda qué materias están hechas
 
+// Función que renderiza la malla
 function renderMalla() {
-  container.innerHTML = '';
-  const años = [...new Set(materias.map(m => m.año))];
+  // Cambiar color y bloquear correlativas
+  materias.forEach(m => {
+    const div = document.getElementById(m.id);
+    if (estado[m.id]) {
+      div.classList.add('hecha');
+    } else {
+      div.classList.remove('hecha');
+    }
 
-  años.forEach(año => {
-    const añoDiv = document.createElement('div');
-    añoDiv.className = 'año';
+    if (!m.correlativas.every(id => estado[id])) {
+      div.classList.add('bloqueada');
+    } else {
+      div.classList.remove('bloqueada');
+    }
 
-    const label = document.createElement('div');
-    label.className = 'año-label';
-    label.textContent = año;
-    añoDiv.appendChild(label);
-
-    materias.filter(m => m.año === año).forEach(m => {
-      const div = document.createElement('div');
-      div.className = 'materia';
-      div.id = m.id;
-      div.textContent = m.nombre;
-
-      const desbloqueada = m.correlativas.every(id => estado[id]);
-      if (estado[m.id]) div.classList.add('hecha');
-      else if (!desbloqueada) div.classList.add('bloqueada');
-
-      div.onclick = () => {
-        if (!div.classList.contains('bloqueada')) {
-          estado[m.id] = !estado[m.id];
-          renderMalla();
-        }
-      };
-
-      añoDiv.appendChild(div);
-    });
-
-    container.appendChild(añoDiv);
+    // Evento click para marcar la materia como "hecha"
+    div.onclick = () => {
+      if (!div.classList.contains('bloqueada')) {
+        estado[m.id] = !estado[m.id];
+        renderMalla();
+      }
+    };
   });
 }
 
