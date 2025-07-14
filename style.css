@@ -18,10 +18,8 @@ h2 {
   text-align: center;
   background-color: #b0cddd;
   border-radius: 8px;
-
 }
 
-/* CONTENEDOR PRINCIPAL */
 .malla {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -31,13 +29,11 @@ h2 {
   width: 100%;
 }
 
-/* COLUMNA DE CADA AÑO */
 .año {
   display: grid;
   width: 100%;
 }
 
-/* CADA CUATRIMESTRE */
 .cuatrimestre {
   display: flex;
   flex-direction: column;
@@ -48,11 +44,9 @@ h2 {
 .año-label {
   font-size: 18px;
   margin-top: 30px;
-  
 }
 
 
-/* MATERIAS */
 .materia {
   background-color: #f8d7d7;
   color: #6e5358;
