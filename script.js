@@ -1,26 +1,26 @@
 const materias = [
-  { id: 'EI', nombre: 'Elementos de Informática', correlativas: [], año: '1° año - 1° cuatrimestre' },
-  { id: 'Algebra', nombre: 'Álgebra', correlativas: [], año: '1° año - 1° cuatrimestre' },
-  { id: 'EPyA', nombre: 'Expresión de Problemas y Algoritmos', correlativas: [], año: '1° año - 1° cuatrimestre' },
+  { id: 'ei', nombre: 'Elementos de Informática', correlativas: [], año: '1° año - 1° cuatrimestre' },
+  { id: 'algebra', nombre: 'Álgebra', correlativas: [], año: '1° año - 1° cuatrimestre' },
+  { id: 'epa', nombre: 'Expresión de Problemas y Algoritmos', correlativas: [], año: '1° año - 1° cuatrimestre' },
 
-  { id: 'AyP1', nombre: 'Algorítmica y Programación I', correlativas: ['EPyA'], año: '1° año - 2° cuatrimestre' },
-  { id: 'AM', nombre: 'Análisis Matemático', correlativas: [], año: '1° año - 2° cuatrimestre' },
-  { id: 'ELyMD', nombre: 'Elementos de la Lógica y Matemática Discreta', correlativas: [], año: '1° año - 2° cuatrimestre' },
-  { id: 'Ingles', nombre: 'Acreditación de idioma Inglés', correlativas: [], año: '1° año - 2° cuatrimestre' },
+  { id: 'api', nombre: 'Algorítmica y Programación I', correlativas: ['epa'], año: '1° año - 2° cuatrimestre' },
+  { id: 'am', nombre: 'Análisis Matemático', correlativas: [], año: '1° año - 2° cuatrimestre' },
+  { id: 'logica', nombre: 'Elementos de la Lógica y Matemática Discreta', correlativas: [], año: '1° año - 2° cuatrimestre' },
+  { id: 'ingles', nombre: 'Acreditación de idioma Inglés', correlativas: [], año: '1° año - 2° cuatrimestre' },
 
-  { id: 'SyO', nombre: 'Sistemas y Organizaciones', correlativas: ['Ingles'], año: '2° año - 1° cuatrimestre' },
-  { id: 'AdC', nombre: 'Arquitectura de Computadoras', correlativas: ['EI'], año: '2° año - 1° cuatrimestre' },
-  { id: 'AyP2', nombre: 'Algorítmica y Programación II', correlativas: ['AyP1', 'ELyMD'], año: '2° año - 1° cuatrimestre' },
+  { id: 'syso', nombre: 'Sistemas y Organizaciones', correlativas: ['ingles'], año: '2° año - 1° cuatrimestre' },
+  { id: 'arq', nombre: 'Arquitectura de Computadoras', correlativas: ['ei'], año: '2° año - 1° cuatrimestre' },
+  { id: 'apii', nombre: 'Algorítmica y Programación II', correlativas: ['api', 'logica'], año: '2° año - 1° cuatrimestre' },
 
-  { id: 'BD1', nombre: 'Base de Datos I', correlativas: ['AyP2'], año: '2° año - 2° cuatrimestre' },
-  { id: 'Estadistica', nombre: 'Estadística', correlativas: ['Algebra', 'AM'], año: '2° año - 2° cuatrimestre' },
-  { id: 'POO', nombre: 'Programación Orientada a Objetos', correlativas: ['AyP2'], año: '2° año - 2° cuatrimestre' },
+  { id: 'bd1', nombre: 'Base de Datos I', correlativas: ['apii'], año: '2° año - 2° cuatrimestre' },
+  { id: 'estad', nombre: 'Estadística', correlativas: ['algebra', 'am'], año: '2° año - 2° cuatrimestre' },
+  { id: 'poo', nombre: 'Programación Orientada a Objetos', correlativas: ['apii'], año: '2° año - 2° cuatrimestre' },
 
-  { id: 'LPyL', nombre: 'Laboratorio de Programación y Lenguajes', correlativas: ['POO'], año: '3° año - 1° cuatrimestre' },
-  { id: 'AyDS', nombre: 'Análisis y Diseño de Sistemas', correlativas: ['BD1'], año: '3° año - 1° cuatrimestre' },
-  { id: 'SO', nombre: 'Sistemas Operativos', correlativas: ['AdC'], año: '3° año - 1° cuatrimestre' },
+  { id: 'lab', nombre: 'Laboratorio de Programación y Lenguajes', correlativas: ['poo'], año: '3° año - 1° cuatrimestre' },
+  { id: 'ads', nombre: 'Análisis y Diseño de Sistemas', correlativas: ['bd1'], año: '3° año - 1° cuatrimestre' },
+  { id: 'so', nombre: 'Sistemas Operativos', correlativas: ['arq'], año: '3° año - 1° cuatrimestre' },
 
-  { id: 'DS', nombre: 'Desarrollo de Software', correlativas: ['POO'], año: '3° año - 2° cuatrimestre' }
+  { id: 'ds', nombre: 'Desarrollo de Software', correlativas: ['poo'], año: '3° año - 2° cuatrimestre' }
 ];
 
 const estado = {};
@@ -41,12 +41,12 @@ function renderMalla() {
 
     materias.filter(m => m.año === año).forEach(m => {
       const div = document.createElement('div');
-      div.className = 'Materia';
+      div.className = 'materia';
       div.id = m.id;
       div.textContent = m.nombre;
 
       const desbloqueada = m.correlativas.every(id => estado[id]);
-      if (estado[m.id]) div.classList.add('Hecha');
+      if (estado[m.id]) div.classList.add('hecha');
       else if (!desbloqueada) div.classList.add('bloqueada');
 
       div.onclick = () => {
