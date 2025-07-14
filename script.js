@@ -34,7 +34,7 @@ const materias = [
 const estado = {};  // Guarda qué materias están hechas
 
 // Función que renderiza la malla
-function renderMalla() {
+function Malla() {
   // Cambiar color y bloquear correlativas
   materias.forEach(m => {
     const div = document.getElementById(m.id);
@@ -54,10 +54,10 @@ function renderMalla() {
     div.onclick = () => {
       if (!div.classList.contains('bloqueada')) {
         estado[m.id] = !estado[m.id];
-        renderMalla();
+        Malla();
       }
     };
   });
 }
 
-renderMalla();
+Malla();
