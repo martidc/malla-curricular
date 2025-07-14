@@ -33,9 +33,9 @@ const materias = [
 
 const estado = {};  // Guarda qué materias están hechas
 
-// Función que renderiza la malla
+// Función que crea la malla
 function Malla() {
-  // Cambiar color y bloquear correlativas
+  // Cambiar color y bloquea correlativas
   materias.forEach(m => {
     const div = document.getElementById(m.id);
     if (estado[m.id]) {
@@ -50,7 +50,7 @@ function Malla() {
       div.classList.remove('bloqueada');
     }
 
-    // Evento click para marcar la materia como "hecha"
+    // Marca la materia como "hecha"
     div.onclick = () => {
       if (!div.classList.contains('bloqueada')) {
         estado[m.id] = !estado[m.id];
